@@ -139,7 +139,18 @@ WHERE Customer_Name LIKE '%te';
 SELECT Order_ID, Order_Date, Customer_Name FROM orders 
 WHERE Customer_Name LIKE '%ven%';
 
+-- Run a case insensitive search 
 
+SELECT Order_ID, Order_Date, Customer_Name, UPPER(Customer_Name) FROM orders 
+WHERE UPPER(Customer_Name) LIKE 'A%A';
+
+
+-- _ -> Only one character 
+
+SELECT Order_ID, Order_Date, Customer_Name FROM orders 
+WHERE Customer_Name LIKE '_l%';
+ 
+-- Lets do this following case 
 /* 
 Starts with A 
 Have something in the second place 
@@ -149,3 +160,11 @@ Anything after that
 
 SELECT Order_ID, Order_Date, Customer_Name FROM orders 
 WHERE Customer_Name LIKE 'A_a%';
+
+-- Starts with l (% -> Any charactor or No charactor) 
+
+SELECT Order_ID, Order_Date, Customer_Name FROM orders 
+WHERE Customer_Name LIKE '%l'
+ORDER BY Customer_Name;
+
+
