@@ -167,4 +167,27 @@ SELECT Order_ID, Order_Date, Customer_Name FROM orders
 WHERE Customer_Name LIKE '%l'
 ORDER BY Customer_Name;
 
+-- escape character 
 
+SELECT Order_ID, Order_Date, Customer_Name FROM orders 
+WHERE Customer_Name LIKE '%l' ESCAPE '%'
+ORDER BY Customer_Name;
+
+-- Name should start with C and then it should have enther a or l --> use [] 
+
+SELECT Order_ID, Order_Date, Customer_Name FROM orders 
+WHERE Customer_Name LIKE 'C[al]%' 
+ORDER BY Customer_Name;
+
+-- Name should start with C and then it should NOT have enther a or l --> use [] and ^
+
+SELECT Order_ID, Order_Date, Customer_Name FROM orders 
+WHERE Customer_Name LIKE 'C[^al]%' 
+ORDER BY Customer_Name;
+
+-- Name should start with C and then it should  have anything between a to 0 --> use [] and -
+-- This Range works with INT and STRING 
+
+SELECT Order_ID, Order_Date, Customer_Name FROM orders 
+WHERE Customer_Name LIKE 'C[a-o]%' 
+ORDER BY Customer_Name;
