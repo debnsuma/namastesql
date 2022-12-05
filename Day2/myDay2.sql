@@ -204,6 +204,36 @@ WHERE product_name = 'tshirt';
 
 SELECT * FROM a_orders;
 
+-- UPDATE the data for a row (DML statement) 
+
+INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method, discount, categoty) 
+	VALUES(1, '2022-12-01 12:06:12', 'tshirt' , 100.5, 'UPI', 100, 'kids_wear');
+
+INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method, discount, categoty) 
+	VALUES(2, '2022-12-01 12:06:12', 'tshirt' , 100.5, 'UPI', 100, 'kids_wear');
+
+INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method, discount, categoty) 
+	VALUES(3, '2022-12-01 12:06:12', 'pant' , 100.5, 'UPI', 100, default);
+
+SELECT * FROM a_orders;
+
+
+
+UPDATE a_orders
+SET discount = 80; -- This will update all rows (as there is no WHERE condition) 
+
+SELECT * FROM a_orders;
+
+UPDATE a_orders
+SET discount = NULL;
+
+SELECT * FROM a_orders;
+
+UPDATE a_orders
+SET discount = 80
+WHERE categoty = 'mens_wear';
+
+SELECT * FROM a_orders;
 
 
 
