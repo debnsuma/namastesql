@@ -95,3 +95,9 @@ RIGHT JOIN dept d ON e.dept_id = d.dep_id;
 SELECT *
 FROM employee e
 FULL OUTER JOIN dept d ON e.dept_id = d.dep_id;
+
+-- Check the items
+
+SELECT TOP 2 * FROM orders;
+
+SELECT TOP 2 * FROM returns;
