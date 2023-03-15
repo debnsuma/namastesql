@@ -15,10 +15,15 @@ payment_method varchar(100)
 );
 
 /*
+Data Types 
 integer -> 1, 2, 3, ... any whole number
 decimal -> we need to provide total length and no. of decimal point within the total length, e.g. decimal(6,2) -> 1234.56
 date -> YYY-MM-DD
 string -> varchar, we need to provide the length of the string within ()
+
+Schema 
+Schema is like folder (here DBO is the schema) 
+Tables exist within the schema (dbo.amazon_order)
 */
 
 -- Delete a table;
@@ -26,7 +31,7 @@ DROP TABLE amazon_orders;
 
 -- Import the data from XLS 
 
-SELECT * from orders;
+SELECT * from amazon_orders;
 
 -- Insert data in the table 
 
@@ -35,6 +40,7 @@ INSERT INTO amazon_orders VALUES(2, '2022-10-02', 'Baby Powder', 130.5, 'Credit 
 
 INSERT INTO amazon_orders VALUES(3, '2022-10-03', 'Baby Cream', 521.0, 'Credit Card');
 INSERT INTO amazon_orders VALUES(4, '2022-10-04', 'Baby Soap', 130.5, 'UPI');
+
 -- Check the data 
 
 SELECT * FROM amazon_orders;
