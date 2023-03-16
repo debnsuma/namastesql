@@ -1,10 +1,11 @@
 -- Check the Oders table 
 
-SELECT * FROM Orders;
+SELECT * FROM orders;
 
 -- Check the amazon_orders table 
 
-SELECT * FROM amazon_orders;
+SELECT * FROM dbo.amazon_orders;
+
 
 -- If you need to save the time along with the data, we need to change the data type 
 -- We need to use the ALTER TABLE (DDL) 
@@ -63,6 +64,9 @@ INSERT INTO a_orders VALUES(NULL, '2022-12-01 12:06:12', NULL , 1130.5, 'UPI');
 
 -- This will work 
 INSERT INTO a_orders VALUES(1, '2022-12-01 12:06:12', NULL , 1130.5, 'UPI');
+SELECT * from a_orders;
+
+INSERT INTO a_orders VALUES(2, '2022-12-01', NULL , 1130.5, 'UPI');
 SELECT * from a_orders;
 
 -- b) CHECK Constrain (Check for some condition)
@@ -133,6 +137,10 @@ INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method,
 	VALUES(1, '2022-12-01 12:06:12', NULL , 1130.5, 'UPI', 100, 'kids_wear');
 
 SELECT * FROM a_orders;
+INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method, discount, categoty) 
+	VALUES(2, '2023-12-01 12:06:12', NULL , 1130.5, 'UPI', 100, default);
+SELECT * FROM a_orders;
+
 
 -- d) PRIMARY KEY Constrain (We can not have NULL value and we can not have Duplicate value) ==> UNIQUE + NOT NULL 
 
@@ -181,7 +189,7 @@ INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method,
 	VALUES(1, '2022-12-01 12:06:12', 'powder' , 1130.5, 'UPI', 100, 'kids_wear');
 
 INSERT INTO a_orders (order_id, order_date, product_name, total, payment_method, discount, categoty) 
-	VALUES(1, '2022-12-01 12:06:12', 'powder' , 1130.5, 'UPI', 100, 'kids_wear');
+	VALUES(1, '2022-12-01 12:06:12', 'toy' , 1131.5, 'UPI', 100, 'kids_wear');
 
 SELECT * FROM a_orders;
 
@@ -234,11 +242,3 @@ SET discount = 80
 WHERE categoty = 'mens_wear';
 
 SELECT * FROM a_orders;
-
-
-
-
-
-
-
-
