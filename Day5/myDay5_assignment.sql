@@ -58,26 +58,30 @@ GROUP BY d.dep_name
 
 -- Q4. write a query to print dep names where none of the emplyees have same salary.
 
+
 SELECT * FROM employee;
 
 SELECT * FROM dept;
 
-SELECT d.dep_name, COUNT(DISTINCT e.salary) as distinct_salary, COUNT(*) as no_employee
-FROM employee e 
-INNER JOIN dept d ON e.dept_id = d.dep_id
-GROUP BY d.dep_name
-HAVING COUNT(DISTINCT e.salary) = COUNT(*)
+SELECT e.dept_id, d.dep_name, COUNT(DISTINCT e.salary) as distinct_salary, COUNT(*) as no_employee
+FROM employee e
+LEFT JOIN dept d ON d.dep_id = e.dept_id
+GROUP BY e.dept_id, d.dep_name 
+HAVING COUNT(DISTINCT salary) = COUNT(*)
+
 
 -- Q5. write a query to print sub categories where we have all 3 kinds of returns (others,bad quality,wrong items)
 
 SELECT TOP 2 * FROM orders;
 
-SELECT TOP 2 * FROM returns;
+SELECT * from returns;
 
 SELECT o.Sub_Category, COUNT(*) as count
 FROM orders o 
 INNER JOIN returns r ON o.Order_ID = r.[Order Id]
-GROUP BY o.Sub_Category;
+GROUP BY o.Sub_Category
+HAVING COUNT(DISTINCT r.[Return Reason]) = 3
+
 
 -- Q6. write a query to find cities where not even a single order was returned.
 
@@ -85,11 +89,11 @@ SELECT TOP 2 * FROM orders;
 
 SELECT TOP 2 * FROM returns;
 
-SELECT o.State, COUNT(*) as count
+SELECT o.City, COUNT(r.[Return Reason]) as count
 FROM orders o 
 LEFT JOIN returns r ON o.Order_ID = r.[Order Id]
-WHERE r.[Return Reason] IS NULL 
-GROUP BY o.State
+GROUP BY o.City 
+HAVING COUNT(r.[Return Reason]) = 0
 
 -- Q7. write a query to find top 3 subcategories by sales of returned orders in east region
 
