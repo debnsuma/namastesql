@@ -115,3 +115,101 @@ SELECT e2.emp_name, STRING_AGG(e1.emp_name, ';') WITHIN GROUP (ORDER BY e1.salar
 FROM employee e1 
 INNER JOIN employee e2 ON e1.manager_id = e2.emp_id
 GROUP BY e2.emp_name
+
+-- 5 - write a query to get number of business days between order_date and ship_date (exclude weekends). 
+-- Assume that all order date and ship date are on weekdays only
+
+SELECT * FROM Orders
+
+SELECT Order_ID, DATEDIFF(day, Order_Date, Ship_Date) - 2*DATEDIFF(week, Order_Date, Ship_Date) AS shiped_in_days_excluding_weekend, 
+		 DATEDIFF(day, Order_Date, Ship_Date) AS shiped_in_days_including_weekend
+FROM Orders
+
+
+-- 6- write a query to print 3 columns : category, total_sales and (total sales of returned orders)
+
+SELECT * FROM Orders
+
+SELECT o.Category, SUM(o.sales) AS total_sales, 
+FROM Orders o 
+LEFT JOIN returns r ON o.Order_ID = r.[Order Id]
+GROUP BY o.Category 
+
+-- WHICH ARE RETURNED
+select o.Category, SUM(o.sales) AS total_sales
+FROM orders o
+left join returns r on o.order_id=r.[Order Id]
+WHERE r.[Order Id] IS NULL
+GROUP BY o.Category 
+ORDER BY total_sales
+
+-- WHICH ARE NOT RETURNED
+select o.Category, SUM(o.sales) AS total_sales
+FROM orders o
+left join returns r on o.order_id=r.[Order Id]
+GROUP BY o.Category 
+ORDER BY total_sales
+
+-- WHICH ARE RETURNED
+select o.Category, r.[Return Reason], SUM(o.sales) AS total_sales
+FROM orders o
+left join returns r on o.order_id=r.[Order Id]
+GROUP BY o.Category, r.[Return Reason]
+HAVING r.[Return Reason] IS NULL 
+ORDER BY total_sales
+
+-- COMBINED
+SELECT o.category, SUM(o.sales) as total_sales ,
+					SUM(CASE
+						WHEN r.[Order Id] is not null THEN sales 
+						END) AS return_orders_sales
+FROM orders o
+LEFT JOIN returns r on o.order_id=r.[Order Id]
+GROUP BY o.Category
+
+-- 7- write a query to print below 3 columns
+-- category, total_sales_2019(sales in year 2019), total_sales_2020(sales in year 2020)
+
+SELECT * FROM Orders
+
+SELECT Orders.Category, YEAR(Orders.Order_Date) AS year, SUM(Orders.Sales) AS total_sales
+FROM Orders 
+WHERE YEAR(Order_Date) IN (2019, 2020)
+GROUP BY Orders.Category, YEAR(Order_Date)
+
+SELECT Orders.Category, 
+	SUM(
+		CASE
+		WHEN DATEPART(year, order_date) = 2019 THEN sales
+		END
+		) AS total_sales_2019,
+	SUM(
+		CASE
+		WHEN DATEPART(year, order_date) = 2020 THEN sales
+		END
+		) AS total_sales_2020
+FROM Orders
+GROUP BY Orders.Category
+
+
+-- 8- write a query print top 5 cities in west region by average no of days between order date and ship date.
+
+SELECT * FROM Orders
+
+SELECT TOP 5 Orders.City,
+	AVG(DATEDIFF(day, Order_Date, Ship_Date)) AS delivery_days
+FROM Orders 
+WHERE Orders.Region = 'West'
+GROUP BY Orders.City
+ORDER BY delivery_days DESC
+
+
+
+-- 9- write a query to print emp name, manager name and senior manager name (senior manager is manager's manager)
+
+SELECT * FROM employee
+
+SELECT e1.emp_name AS employee, e2.emp_name AS first_line_manager, e3.emp_name AS second_line_manager
+FROM employee e1 
+LEFT JOIN employee e2 ON e1.manager_id = e2.emp_id
+LEFT JOIN employee e3 ON e2.manager_id = e3.emp_id
